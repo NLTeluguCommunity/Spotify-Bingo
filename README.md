@@ -105,7 +105,8 @@ pip install flask requests pandas openpyxl python-dotenv
 
 2. If an unknown song (not part of the predefined playlist) is played, it will be recorded as "Unknown" in `songs.csv`. Clicking "Reveal" for such songs may throw an error. To fix:
 
-   - Ensure the song names in your playlist match the predefined `SONG_PLAYLIST` dictionary. Here is the current playlist I have used https://open.spotify.com/playlist/6j841osP77MzMGzpOOVHTs?si=LH4Jrku5TUKb0GPIQdTGGQ
+   - Ensure the song names in your playlist match the predefined `SONG_PLAYLIST` dictionary. Here is the current playlist I have used
+   - [Spotify Playlist](https://open.spotify.com/playlist/6j841osP77MzMGzpOOVHTs?si=LH4Jrku5TUKb0GPIQdTGGQ)
 
 ---
 
