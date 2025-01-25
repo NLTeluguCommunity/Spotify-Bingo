@@ -114,6 +114,7 @@ pip install flask requests pandas openpyxl python-dotenv
 
 1. Automatically fetch the correct song names and numbers from Spotify API.
 2. Improve error handling for missing or misconfigured files.
+3. When clicked on validate, currently it only displays the bingo cards. Instead we can highlight the number by comparing the numbers in songs.csv for easy validation.
 
 ---
 
