@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Bingo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000; 
+            color: white;
+            display: flex;
+            flex-direction: row;
+            height: 100vh;
+        }
+        .left-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border-right: 2px solid #57504d;
+            position: relative;
+        }
+        .background {
+            display: block;
+            max-width: 80%; 
+            height: auto;
+            margin-bottom: 20px; 
+        }
+        .right-container {
+            flex: 9;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .top-container {
+            flex: 4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .bottom-container {
+            flex: 6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: auto;
+        }
+        button {
+            font-size: 27px;
+            padding: 5px 5px;
+            margin: 1px;
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 150px;
+        }
+        button:hover {
+            background-color: #ff4500;
+        }
+        .song-info {
+            font-size: 60px;
+            color: #ffffff;
+            margin-top: 5px;
+            min-height: 200px;
+        }
+        .table-container {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        .number-table {
+            width: 100%;
+            border-collapse: collapse;
+            height: 100%;
+        }
+        .number-table th,
+        .number-table td {
+            border: 2px solid #57504d;
+            text-align: center;
+            padding: 10px;
+            font-size: 55px;
+            font-weight: bold;
+            color: #ffffff;
+            background-color: #111;
+            width: 70px;
+            height: 70px;
+            overflow: hidden;
+            vertical-align: middle;
+        }
+        #validation-container {
+            display: none;
+            margin-top: 0;
+            padding: 0;
+            width: 100%;
+            height: auto;
+            text-align: center;
+        }
+        #validation-container table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto;
+            font-size: 18px;
+            height: auto;
+        }
+        #validation-container th,
+        #validation-container td {
+            padding: 5px;
+            border: 1px solid #57504d;
+            text-align: center;
+            color: white;
+            background-color: #111;
+            word-wrap: break-word;
+        }
+        #close-validation {
+            background-color: #ff6600;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px; 
+        }
+        #close-validation:hover {
+            background-color: #ff4500;
+        }
+        #validate-container {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="left-container">
+        <div class="left-up">
+            <img src="/static/background.png" alt="Music Bingo Background" class="background">
+        </div>
+        <div id="reveal-container">
+            <form action="{% if show_reveal %}/reveal{% else %}/hide{% endif %}" method="post">
+                <button type="submit">
+                    {% if show_reveal %}Reveal{% else %}Play{% endif %}
+                </button>
+            </form>
+        </div>
+        <div id="validate-container">
+            <form id="validate-card-form" method="post" action="/validate_card">
+                <input type="text" name="card_number" value="S25MB001" placeholder="Enter Card Number" required>
+                <button type="submit">Validate</button>
+            </form>
+        </div>
+    </div>
+    <div class="right-container">
+        <div class="top-container">
+            <div class="song-info">
+                {% if song_name and song_number %}
+                    <p><strong>Song:</strong> {{ song_name }}</p>
+                    <p><strong>Number:</strong> {{ song_number }}</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="bottom-container">
+            <div class="table-container">
+                <table class="number-table">
+                    <tbody>
+                        {% for row in range(5) %}
+                            <tr>
+                                {% for col in range(15) %}
+                                    <td>{{ table_data[row][col] if table_data[row][col] else '' }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div id="validation-container">
+                <div class="table-container">
+                    <table id="validation-table"></table>
+                </div>
+                <button id="close-validation" onclick="closeValidation()">Close</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('validate-card-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+
+            try {
+                const response = await fetch('/validate_card', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                const validationContainer = document.getElementById('validation-container');
+                const validationTable = document.getElementById('validation-table');
+
+                if (result.success) {
+                    validationTable.innerHTML = result.card_html; // Insert card table
+                    validationContainer.style.display = 'block'; // Show container
+                } else {
+                    alert(`Error: ${result.error}`);
+                }
+            } catch (error) {
+                console.error('Error validating card:', error);
+                alert('An error occurred while validating the card. Please try again.');
+            }
+        });
+
+        function closeValidation() {
+            document.getElementById('validation-container').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
