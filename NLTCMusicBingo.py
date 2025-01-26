@@ -5,8 +5,6 @@ import csv
 import os
 import pandas as pd
 from dotenv import load_dotenv # type: ignore
-
-
 # You don't have to create songs.csv, when you run the code for first time songs.csv is automatically created.
 # when the program is executed, a songs.csv file is created automatically.
 
