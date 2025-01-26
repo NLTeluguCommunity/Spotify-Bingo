@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Bingo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: white;
+            display: flex;
+            flex-direction: row;
+            height: 100vh;
+        }
+        .left-container {
+            width: 20%;
+            background-color: #111;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border-right: 2px solid #57504d;
+        }
+        .left-container button {
+            width: 100%;
+            font-size: 24px;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .left-container button:hover {
+            background-color: #ff4500;
+        }
+        .right-container {
+            width: 80%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        input[type="number"] {
+            font-size: 24px;
+            padding: 10px;
+            width: 150px;
+            border: 2px solid #57504d;
+            border-radius: 5px;
+            background-color: #111;
+            color: white;
+            margin: 10px;
+        }
+        button {
+            font-size: 24px;
+            padding: 10px 20px;
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ff4500;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #ff6600;
+        }
+    </style>
+    <script>
+        function showHome() {
+            document.getElementById("home-section").style.display = "block";
+            document.getElementById("game-section").style.display = "none";
+        }
+
+        function showGame() {
+            document.getElementById("home-section").style.display = "none";
+            document.getElementById("game-section").style.display = "block";
+        }
+
+        async function generatePlaylist() {
+            try {
+                const response = await fetch('/generate_playlist', { method: 'POST' });
+                const message = await response.text();
+                alert(message);
+            } catch (error) {
+                alert("Failed to generate playlist.");
+            }
+        }
+
+        async function generateCards() {
+            const cardCount = document.getElementById("card_count").value;
+            if (!cardCount || cardCount < 1 || cardCount > 500) {
+                alert("Please enter a number between 1 and 500.");
+                return;
+            }
+            try {
+                const response = await fetch('/generate_cards', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({ card_count: cardCount })
+                });
+                const message = await response.text();
+                alert(message);
+            } catch (error) {
+                alert("Failed to generate cards.");
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="left-container">
+        <button onclick="showHome()">Home</button>
+        <button onclick="showGame()">Game</button>
+    </div>
+    <div class="right-container">
+        <!-- Home Section -->
+        <div id="home-section">
+            <h1>Generate Playlist and Bingo Cards</h1>
+            <button onclick="generatePlaylist()">Generate Playlist</button>
+            <div class="form-container">
+                <label for="card_count">Enter number of cards (Max: 500):</label><br>
+                <input type="number" id="card_count" name="card_count" min="1" max="500" required><br>
+                <button onclick="generateCards()">Generate Cards</button>
+            </div>
+        </div>
+        <!-- Game Section -->
+        <div id="game-section" style="display: none;">
+            <h1>Instructions to Play</h1>
+            <p>1. Ensure the playlist and Bingo cards are generated.<br>
+               2. Start the game and reveal songs one by one.<br>
+               3. Match the revealed songs to the numbers on your Bingo card.<br>
+               4. The first player to complete a row, column, or diagonal wins!</p>
+            <button onclick="window.location.href='/play_game'">Play Now</button>
+        </div>
+    </div>
+</body>
+</html>

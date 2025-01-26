@@ -152,19 +152,22 @@
         </div>
         <div id="validate-container">
             <form id="validate-card-form" method="post" action="/validate_card">
-                <input type="text" name="card_number" value="S25MB001" placeholder="Enter Card Number" required>
+                <input type="text" name="card_number" value="001" placeholder="Enter Card Number" required>
                 <button type="submit">Validate</button>
             </form>
+            <button onclick="window.location.href='/'" style="margin-top: 10px;">Home</button>
         </div>
     </div>
     <div class="right-container">
         <div class="top-container">
             <div class="song-info">
-                {% if song_name and song_number %}
+                {% if song_name %}
                     <p><strong>Song:</strong> {{ song_name }}</p>
-                    <p><strong>Number:</strong> {{ song_number }}</p>
+                    {% if song_number %}
+                        <p><strong>Number:</strong> {{ song_number }}</p>
+                    {% endif %}
                 {% endif %}
-            </div>
+            </div>            
         </div>
         <div class="bottom-container">
             <div class="table-container">
