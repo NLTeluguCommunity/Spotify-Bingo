@@ -10,11 +10,6 @@ from dotenv import load_dotenv # type: ignore
 # You don't have to create songs.csv, when you run the code for first time songs.csv is automatically created.
 # when the program is executed, a songs.csv file is created automatically.
 
-# Known Bug 2: If you click on reveal without the songs.csv, it throws an "FileNotFoundError:" error. Fix this by catching the exception.
-# Workaround for this is to rerun the program again.
-
-
-
 app = Flask(__name__)
 app.secret_key = "your_secret_key"  # Replace with a strong secret key
 
@@ -33,12 +28,7 @@ SPOTIFY_CURRENT_TRACK_URL = os.getenv("SPOTIFY_CURRENT_TRACK_URL")
 SONGS_FILE = os.getenv("SONGS_FILE","songs.csv")
 CARDS_FILE = os.getenv("CARDS_FILE")
 SONGS_FILE = "songs.csv" 
-# The songs here are hard coded and assigned a number from 1 to 75 (as Bingo card contains 75 numbers)
-# The code only works for these 75 songs any other would be assigned to a value "Unknown" - you can verify this in the generated songs.csv file
- 
 
-# Enhancement 1: Please also note that the name of the song here should match with the spotify song name. 
-# You can use spotify APIs to get the name and finetune this current code.
 # these songs are from Spotify playlist https://open.spotify.com/playlist/6j841osP77MzMGzpOOVHTs?si=ii_zJFg5SPmUmXqSl8mRww
 
 # Load the playlist from the CSV file
@@ -153,8 +143,6 @@ def callback():
     else:
         return "Failed to authenticate with Spotify."
 
-# Known Bug 1: There is a known bug in this method, if an unknown song (not part of the playlist) is played, the record in songs.csv is saved as unknown
-# for the corresponding song. When you click on reveal it throws error, as type int is expected but found string (unknown).
 @app.route("/reveal", methods=["POST"])
 def reveal():
     if "access_token" not in session:
