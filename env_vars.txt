@@ -1,0 +1,17 @@
+# Environment variables file (excluded from version control)
+
+# Spotify API Credentials
+SPOTIFY_CLIENT_ID=your_client_id_here
+SPOTIFY_CLIENT_SECRET=your_client_secret_here
+
+# Flask Configuration
+APP_SECRET_KEY=your_flask_secret_key_here
+
+# File Paths
+SONGS_FILE=songs.csv
+CARDS_FILE=MusicBingoCards_Final.xlsx
+
+# Spotify API URLs
+REDIRECT_URI=http://127.0.0.1:7325/callback
+SPOTIFY_TOKEN_URL=https://accounts.spotify.com/api/token
+SPOTIFY_CURRENT_TRACK_URL=https://api.spotify.com/v1/me/player/currently-playing
