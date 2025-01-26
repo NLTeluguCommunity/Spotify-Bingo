@@ -15,7 +15,7 @@ app.secret_key = "your_secret_key"  # Replace with a strong secret key
 load_dotenv()  
 
 # Access the environment variables as usual
-CLIENT_ID = os.getenv("SPOTIFY_CLIENT_ID")
+CLIENT_ID = os.getenv("SPOTIFY_CLIENT_ID") 
 CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_SECRET")
 REDIRECT_URI = os.getenv("REDIRECT_URI")
 PLAYLIST_ID = os.getenv("PLAYLIST_ID")
