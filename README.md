@@ -2,6 +2,8 @@
 
 This is a Flask-based web application for playing a music-themed bingo game. The app integrates with the Spotify API to fetch currently playing songs and allows players to validate bingo cards against the playlist.
 
+![Bingo Screen During a Game](screenshots/screen-bingoscreen.png)
+
 ---
 
 ## Features
@@ -39,6 +41,8 @@ Before running the application, ensure you have the following installed:
 
 3. Replace the `CLIENT_ID` and `CLIENT_SECRET` values in the `NLTCMusicBingo.py` file with your Spotify API credentials.
 
+![Spotify App Setup](screenshots/screen-spotifyapp.png)
+
    ### Setting up Spotify API
 
    To use the Spotify API, follow these steps:
@@ -52,7 +56,7 @@ Before running the application, ensure you have the following installed:
       ```
    5. Note down the **Client ID** and **Client Secret** from the app’s dashboard.
    6. Replace the placeholder values in the `NLTCMusicBingo.py` file with these credentials.
-  
+
 Note: If you would like, I can also add you to my current spotify app.
 
 4. Ensure the following files and directories exist:
