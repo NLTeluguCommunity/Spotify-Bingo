@@ -2,16 +2,20 @@
 
 This is a Flask-based web application for playing a music-themed bingo game. The app integrates with the Spotify API to fetch currently playing songs and allows players to validate bingo cards against the playlist.
 
-![Bingo Screen During a Game](screenshots/screen-bingoscreen.png)
+![Bingo Home Page ](screenshots/screen-homepage.png)
+![Bingo Play Game](screenshots/screen-play.png)
+![Bingo Screen During a Game](screenshots/screen-gamepage.png)
 
 ---
 
 ## Features
 
+- Fetch any playlist and generate cards based on the playlist.
 - Integration with Spotify API to fetch the currently playing track.
 - Ability to reveal or hide songs during gameplay.
 - Validate bingo cards from an Excel sheet containing card data.
 - Store song data in a CSV file.
+
 
 ---
 
@@ -39,7 +43,7 @@ Before running the application, ensure you have the following installed:
    pip install -r requirements.txt
    ```
 
-3. Replace the `CLIENT_ID` and `CLIENT_SECRET` values in the `NLTCMusicBingo.py` file with your Spotify API credentials.
+3. Replace the `CLIENT_ID`, `CLIENT_SECRET`, `PLAYLIST_ID` values in the `.env` file with your Spotify API credentials.
 
 ![Spotify App Setup](screenshots/screen-spotifyapp.png)
 
@@ -55,13 +59,17 @@ Before running the application, ensure you have the following installed:
       http://127.0.0.1:7325/callback
       ```
    5. Note down the **Client ID** and **Client Secret** from the app’s dashboard.
-   6. Replace the placeholder values in the `NLTCMusicBingo.py` file with these credentials.
+   6. Replace the placeholder values in the `.env` file with these credentials.
+
+   For PLAYLIST_ID, you will find the ID in URL of a given playlist.
+
+   ![Spotify Playlist ID](screenshots/screen-playlistID.png)
 
 Note: If you would like, I can also add you to my current spotify app.
 
 4. Ensure the following files and directories exist:
 
-   - A file named `songs.csv` will be created automatically upon first used.
+   - File named `songs.csv, playlist.csv, MusicBingoCards.xlsv` will be created automatically upon first used.
 
 ---
 
@@ -81,6 +89,10 @@ Note: If you would like, I can also add you to my current spotify app.
 
 3. Log in with your Spotify account to authorize the app.
 
+4. Enjoy the Music Bingo game
+
+5. To restart the game, delete the `songs.csv` file
+
 ---
 
 ## Packages Used
@@ -98,44 +110,11 @@ Install these dependencies using:
 ```bash
 pip install flask requests pandas openpyxl python-dotenv
 ```
-
----
-
-## Known Issues
-
-1. If you click "Reveal" without `songs.csv` being present, a `FileNotFoundError` occurs. To fix:
-
-   - Restart the application, and the file will be created automatically.
-
-2. If an unknown song (not part of the predefined playlist) is played, it will be recorded as "Unknown" in `songs.csv`. Clicking "Reveal" for such songs may throw an error. To fix:
-
-   - Ensure the song names in your playlist match the predefined `SONG_PLAYLIST` dictionary. Here is the current playlist I have used
-   - [Spotify Playlist](https://open.spotify.com/playlist/6j841osP77MzMGzpOOVHTs?si=LH4Jrku5TUKb0GPIQdTGGQ)
-
 ---
 
 ## Enhancements
 
-1. Automatically fetch the correct song names and numbers from Spotify API.
-2. Improve error handling for missing or misconfigured files.
-3. When clicked on validate, currently it only displays the bingo cards. Instead we can highlight the number by comparing the numbers in songs.csv for easy validation.
-
----
-
-## Folder Structure
-
-```
-.
-├── static/
-│   └── background.png       # Background image for the web UI
-├── templates/
-│   ├── index.html           # Main HTML file for the UI
-├── songs.csv                # Automatically generated file for storing song data
-├── MusicBingoCards_Final.xlsx # Excel file containing bingo card data
-├── NLTCMusicBingo.py        # Main Python application
-├── requirements.txt         # List of required Python packages
-└── README.md                # Project documentation
-```
+1. When clicked on validate, currently it only displays the bingo cards. Instead we can highlight the number by comparing the numbers in songs.csv for easy validation.
 
 ---
 
